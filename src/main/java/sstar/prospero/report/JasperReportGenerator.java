@@ -15,7 +15,7 @@ import java.io.*;
  * Created by Sergey.Tarasenko on 11.03.2015.
  */
 public class JasperReportGenerator implements ReportGenerator{
-    private String templateBase="";
+    private String templateBase;
     
     
     public void generate(String template, String jsonData, OutputStream os) {
@@ -23,8 +23,9 @@ public class JasperReportGenerator implements ReportGenerator{
         byte[] result;
         try {
             ds = new JsonDataSource(new ByteArrayInputStream(jsonData.getBytes()));
-            Resource res = new ClassPathResource(templateBase+template);
-            final JasperReport jasperReport = JasperCompileManager.compileReport(res.getInputStream());
+            /*Resource res = new ClassPathResource(templateBase+template);*/
+            final JasperReport jasperReport = JasperCompileManager.compileReport(/*res.getInputStream()*/
+                    new FileInputStream(templateBase+template));
             JasperPrint jprint = JasperFillManager.fillReport(jasperReport, null, ds);
             JRXlsExporter exporter = new JRXlsExporter();
             exporter.setExporterInput(new SimpleExporterInput(jprint));

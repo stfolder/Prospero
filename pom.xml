@@ -4,7 +4,7 @@
 
   <groupId>sstar.prospero</groupId>
   <artifactId>prospero</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
 
   <name>prospero</name>
@@ -123,70 +123,116 @@
         </configuration>
       </plugin>
 
-      <!--plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
-          
+          <excludes>
+            <exclude>webapp</exclude>
+            <exclude>resources/*</exclude>
+          </excludes>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>../lib/</classpathPrefix>
+              <mainClass>sstar.prospero.App</mainClass>
+            </manifest>
+          </archive>
+          <finalName>prospero</finalName>
         </configuration>
-      </plugin-->
+      </plugin>
+
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
+        <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
+            <id>copy_dependencies</id>
             <phase>package</phase>
             <goals>
-              <goal>shade</goal>
+              <goal>copy-dependencies</goal>
             </goals>
             <configuration>
-              <shadedArtifactAttached>true</shadedArtifactAttached>
-              <shadedClassifierName>stand-alone</shadedClassifierName>
-              <filters>
-              <filter>
-                <!--
-                    Exclude files that sign a jar
-                    (one or multiple of the dependencies).
-                    One may not repack a signed jar without
-                    this, or you will get a
-                    SecurityException at program start.
-                -->
-                <artifact>*:*</artifact>
-                <excludes>
-                  <exclude>META-INF/*.SF</exclude>
-                  <exclude>META-INF/*.RSA</exclude>
-                  <exclude>META-INF/*.INF</exclude> <!-- This one may not be required -->
-                </excludes>
-              </filter>
-              </filters>
-              <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                  <resource>META-INF/spring.handlers</resource>
-                </transformer>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                  <resource>META-INF/spring.schemas</resource>
-                </transformer>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <manifestEntries>
-                    <Main-Class>sstar.prospero.App</Main-Class>
-                  </manifestEntries>
-                </transformer>
-              </transformers>
+              <outputDirectory>${project.build.directory}/Prospero/lib</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy_myself</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>${project.groupId}</groupId>
+                  <artifactId>${project.artifactId}</artifactId>
+                  <version>${project.version}</version>
+                  <type>${project.packaging}</type>
+                  <outputDirectory>${project.build.directory}/Prospero/bin</outputDirectory>
+                </artifactItem>
+              </artifactItems>
             </configuration>
           </execution>
         </executions>
       </plugin>
 
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <configuration>
-          <outputDirectory>
-            ${project.build.directory}
-          </outputDirectory>
-        </configuration>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.7</version>
+        <executions>
+          <execution>
+            <id>copy-run-scripts</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/Prospero/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/run-script/</directory>
+                  <filtering>false</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-conf</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/Prospero/conf/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/conf/</directory>
+                  <filtering>false</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-res</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/Prospero/res/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/res/</directory>
+                  <filtering>false</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
+      
 
     </plugins>
   </build>

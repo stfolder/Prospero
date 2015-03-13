@@ -4,6 +4,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,10 +38,10 @@ public class DBStructureCreator extends JdbcDaoSupport {
             System.out.println("-============SERG=============- No Jdbc Template ");
         }
         logger.info("Processing file "+pathToSql);
-        Resource res = new ClassPathResource(pathToSql);
+        //Resource res = new ClassPathResource(pathToSql);
         Scanner scan=null;
         try {
-            scan = new Scanner(res.getInputStream(),"UTF-8");
+            scan = new Scanner(/*res.getInputStream()*/ new FileInputStream(pathToSql),"UTF-8");
             while(scan.hasNext()) {
                 String line = scan.nextLine();
                 String []args = line.split("\\|");

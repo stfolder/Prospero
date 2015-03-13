@@ -19,7 +19,7 @@ public class App
         Server server = new Server(8080);
 
 
-        WebAppContext context = new WebAppContext("webapp", "/");
+        WebAppContext context = new WebAppContext("res/webapp", "/");
 
         if (System.getProperty("os.name").toLowerCase().contains("windows")) {
             // fix for Windows, so Jetty doesn't lock files

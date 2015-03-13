@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-    <context:property-placeholder location="classpath:application.properties" />
+    <context:property-placeholder location="file:conf/application.properties" />
 
     <context:annotation-config />
 
@@ -24,7 +24,7 @@
 
     <bean id="dbConstructor" class="sstar.prospero.dao.DBStructureCreator" init-method="checkStructure">
         <property name="jdbcTemplate" ref="jdbcTemplate" />
-        <property name="pathToSql"  value="create_db_objects.sql" />
+        <property name="pathToSql"  value="conf/create_db_objects.sql" />
     </bean>
 
     <bean id="personDAO" class="sstar.prospero.dao.PersonDAOImpl">
