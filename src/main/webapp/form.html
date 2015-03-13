@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Просперо</title>
+
+    <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.css" />
+    <link href="css/jquery-ui.css" rel="stylesheet" type="text/css">
+    <link href="css/jquery-ui.theme.css" rel="stylesheet" type="text/css">
+    
+    <script src="js/jquery-2.1.3.min.js" type="text/javascript"></script>
+    <script src="js/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="js/jquery.dform-1.1.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+<form id="pform"></form>
+<button onclick="getElementById('pform').submit();setTimeout(function() { window.open('/service/report'+window.location.href.slice(window.location.href.indexOf('?')));window.close();}, 1000);">Далее</button>
+<script type="text/javascript" class="demo" id="demo-1">
+    var params = window.location.href.slice(window.location.href.indexOf('?') + 1);
+    $("#pform").dform("/service/form?"+params);
+</script>
+</body>
+</html>

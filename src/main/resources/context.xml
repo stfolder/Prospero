@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+               http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+    <context:property-placeholder location="classpath:application.properties" />
+
+    <context:annotation-config />
+
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+
+    
+
+    <bean id="ProsperoDS" class="org.apache.derby.jdbc.EmbeddedConnectionPoolDataSource">
+        <property name="databaseName" value="${DBName}" />
+        <property name="createDatabase" value="create" />
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg ref="ProsperoDS" />
+    </bean>
+
+    <bean id="dbConstructor" class="sstar.prospero.dao.DBStructureCreator" init-method="checkStructure">
+        <property name="jdbcTemplate" ref="jdbcTemplate" />
+        <property name="pathToSql"  value="create_db_objects.sql" />
+    </bean>
+
+    <bean id="personDAO" class="sstar.prospero.dao.PersonDAOImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate" />
+    </bean>
+
+    <bean id="operationDAO" class="sstar.prospero.dao.OperationDAOImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate" />
+    </bean>
+
+    <bean id="reportGenerator" class="sstar.prospero.report.JasperReportGenerator">
+        <property name="templateBase" value="${templateBase}" />
+    </bean>
+
+
+</beans>
