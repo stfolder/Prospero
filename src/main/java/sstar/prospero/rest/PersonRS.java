@@ -40,6 +40,7 @@ public class PersonRS extends SpringResource{
                 properties.put("firstName",fio[1]);
             if(fio.length>2)
                 properties.put("middleName",fio[2]);
+            person.setProperties(properties);
         }
         personDAO.addPerson(person);
         return Response.status(200).entity(person).build();

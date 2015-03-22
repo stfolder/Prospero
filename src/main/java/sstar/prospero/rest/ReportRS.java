@@ -35,6 +35,7 @@ public class ReportRS extends SpringResource{
     
 
     @GET
+    @Path("xls")
     @Produces("application/vnd.ms-excel")
     public Response getReport(@QueryParam("formid") String formId, @QueryParam("personid") String personId){
         String temporaryFileName="cache/"+System.currentTimeMillis()+".xls";
@@ -44,7 +45,7 @@ public class ReportRS extends SpringResource{
         try {
             String jsonData = (new ObjectMapper()).writeValueAsString(person.getProperties());
             OutputStream os = new FileOutputStream(temporaryFileName);
-            reportGenerator.generate(form.getTemplate(), jsonData, os);
+            reportGenerator.generateXLS(form.getTemplate(), jsonData, os);
             os.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -61,6 +62,33 @@ public class ReportRS extends SpringResource{
         return rb.build();
     }
 
+    @GET
+    @Produces("application/pdf")
+    public Response getPdfReport(@QueryParam("formid") String formId, @QueryParam("personid") String personId){
+        String temporaryFileName="cache/"+System.currentTimeMillis()+".pdf";
+        Form form = operationDAO.getFormById(Integer.parseInt(formId));
+        Person person = personDAO.getPersonById(Integer.parseInt(personId));
+        personDAO.loadPersonProperties(person);
+        try {
+            String jsonData = (new ObjectMapper()).writeValueAsString(person.getProperties());
+            OutputStream os = new FileOutputStream(temporaryFileName);
+            reportGenerator.generatePDF(form.getTemplate(), jsonData, os);
+            os.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ResponseBuilder rb = Response.ok(new File(temporaryFileName));
+        rb.header("Content-Disposition",
+                "inline;filename=report.pdf");
+
+        return rb.build();
+    }
+
     @Path("json")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -71,6 +99,8 @@ public class ReportRS extends SpringResource{
         try {
             jsonData=(new ObjectMapper()).writeValueAsString(person.getProperties());
         } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return jsonData;

@@ -1,4 +1,5 @@
 erase /Q cache\*
 rmdir cache
 mkdir cache
-java -jar bin\prospero-1.0.0.jar
+chcp 65001
+java -Dfile.encoding=UTF-8 -Duser.language=ru -Duser.country=RU -jar bin\prospero-1.0.0.jar

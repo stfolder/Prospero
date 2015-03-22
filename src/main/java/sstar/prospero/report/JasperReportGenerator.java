@@ -6,8 +6,7 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+
 
 import java.io.*;
 
@@ -16,17 +15,14 @@ import java.io.*;
  */
 public class JasperReportGenerator implements ReportGenerator{
     private String templateBase;
-    
-    
-    public void generate(String template, String jsonData, OutputStream os) {
+
+
+    public void generateXLS(String template, String jsonData, OutputStream os) {
         JsonDataSource ds=null;
         byte[] result;
         try {
             ds = new JsonDataSource(new ByteArrayInputStream(jsonData.getBytes()));
-            /*Resource res = new ClassPathResource(templateBase+template);*/
-            final JasperReport jasperReport = JasperCompileManager.compileReport(/*res.getInputStream()*/
-                    new FileInputStream(templateBase+template));
-            JasperPrint jprint = JasperFillManager.fillReport(jasperReport, null, ds);
+            JasperPrint jprint = JasperFillManager.fillReport(new FileInputStream(templateBase+template), null, ds);
             JRXlsExporter exporter = new JRXlsExporter();
             exporter.setExporterInput(new SimpleExporterInput(jprint));
             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(os));
@@ -36,22 +32,38 @@ public class JasperReportGenerator implements ReportGenerator{
             configuration.setCollapseRowSpan(false);
             exporter.setConfiguration(configuration);
             exporter.exportReport();
+
         } catch (JRException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
+    public void generatePDF(String template, String jsonData, OutputStream os) {
+        JsonDataSource ds=null;
+        byte[] result;
+        try {
+            ds = new JsonDataSource(new ByteArrayInputStream(jsonData.getBytes()));
+            JasperPrint jprint = JasperFillManager.fillReport(new FileInputStream(templateBase+template), null, ds);
+            JasperExportManager.exportReportToPdfStream(jprint,os);
+
+        } catch (JRException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setTemplateBase(String templateBase) {
         this.templateBase = templateBase;
     }
 
 
-    
+
     public  static void main(String ... args) throws IOException{
         JasperReportGenerator rg = new JasperReportGenerator();
         rg.setTemplateBase("report_templates/");
-        rg.generate("uvedomlenie.jrxml", "{\"firstName\":\"Сергей\", \"lastName\":\"Тарасенко\", \"middleName\":\"Сергеевич\"}", new FileOutputStream("test.xls"));
+        rg.generateXLS("uvedomlenie.jrxml", "{\"firstName\":\"Сергей\", \"lastName\":\"Тарасенко\", \"middleName\":\"Сергеевич\"}", new FileOutputStream("test.xls"));
     }
 }

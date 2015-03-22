@@ -18,6 +18,14 @@
     <derby.version>10.11.1.1</derby.version>
     <spring.version>3.2.13.RELEASE</spring.version>
   </properties>
+  <repositories>
+    <repository>
+      <id>jaspersoft</id>
+      <name>jaspersoft-releases</name>
+      <url>http://jaspersoft.artifactoryonline.com/jaspersoft/jr-ce-releases</url>
+    </repository>
+  </repositories>
+
 
   <dependencies>
     <dependency>
@@ -99,6 +107,28 @@
       <artifactId>jasperreports</artifactId>
       <version>6.0.3</version>
     </dependency>
+
+    <dependency>
+      <groupId>net.sf.jasperreports</groupId>
+      <artifactId>jasperreports-functions</artifactId>
+      <version>6.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.jasperreports</groupId>
+      <artifactId>jasperreports-fonts</artifactId>
+      <version>6.0.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy-all</artifactId>
+      <version>2.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>2.1</version>
+    </dependency>
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi-ooxml</artifactId>
@@ -111,7 +141,7 @@
     </dependency>
 
   </dependencies>
-  
+
   <build>
     <plugins>
       <plugin>
@@ -232,8 +262,9 @@
           </execution>
         </executions>
       </plugin>
-      
+
 
     </plugins>
   </build>
+
 </project>

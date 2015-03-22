@@ -36,6 +36,7 @@ public class PersonDAOImpl  extends JdbcDaoSupport implements PersonDAO {
             }
         }, keyHolder);
         person.setId(keyHolder.getKey().intValue());
+        persistPersonProperties(person);
     }
 
     @Override

@@ -32,10 +32,10 @@ public class DBStructureCreator extends JdbcDaoSupport {
     public void checkStructure() {
 
         if(getJdbcTemplate()!=null) {
-            System.out.println("-============SERG=============- Jdbc taken");
+            System.out.println("-============PROSPERO=============- Jdbc taken");
         }
         else {
-            System.out.println("-============SERG=============- No Jdbc Template ");
+            System.out.println("-============PROSPERO=============- No Jdbc Template ");
         }
         logger.info("Processing file "+pathToSql);
         //Resource res = new ClassPathResource(pathToSql);
