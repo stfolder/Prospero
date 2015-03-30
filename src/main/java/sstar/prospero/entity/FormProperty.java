@@ -12,6 +12,7 @@ public class FormProperty {
     private boolean required;
     private int position;
     private String value;
+    private String extra;
 
     public String getPropertyId() {
         return propertyId;
@@ -76,4 +77,13 @@ public class FormProperty {
     public void setValue(String value) {
         this.value = value;
     }
+
+    public String getExtra() {
+        return extra;
+    }
+
+    public void setExtra(String extra) {
+        this.extra = extra;
+    }
+
 }

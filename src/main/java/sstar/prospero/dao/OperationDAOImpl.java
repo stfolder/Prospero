@@ -74,7 +74,7 @@ public class OperationDAOImpl extends JdbcDaoSupport implements OperationDAO {
     }
     public List<FormProperty> getFProperties(Form form, Person person) {
         String sql = "SELECT prop.property_id, prop.caption, prop.multiple, f.required " +
-                ", prop.p_type, f.presentation, f.position, p.p_value" +
+                ", prop.p_type, f.presentation, f.position, p.p_value, prop.extra" +
                 " FROM (F_PROPERTY f INNER JOIN PROPERTY prop ON f.property_property_id = prop.property_id) " +
                 "LEFT JOIN (SELECT * FROM P_PROPERTY WHERE person_person_id = "+person.getId()+") p ON prop.property_id = p.property_property_id " +
                 "WHERE f.form_form_id = "+form.getFormId()+
@@ -91,6 +91,7 @@ public class OperationDAOImpl extends JdbcDaoSupport implements OperationDAO {
                 fp.setPresentation(resultSet.getString(6));
                 fp.setPosition(resultSet.getInt(7));
                 fp.setValue(resultSet.getString(8));
+                fp.setExtra(resultSet.getString(9));
                 return fp;
             }
         });

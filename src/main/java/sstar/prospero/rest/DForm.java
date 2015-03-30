@@ -1,6 +1,7 @@
 package sstar.prospero.rest;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Sergey.Tarasenko on 10.03.2015.
@@ -39,6 +40,7 @@ public class DForm {
         private String type;
         private String caption;
         private String value;
+        private List<Option> options;
         
         public Field(){};
         public Field(String name, String value, String type){            
@@ -78,6 +80,55 @@ public class DForm {
         public void setValue(String value) {
             this.value = value;
         }
+
+        public List<Option> getOptions() {
+            return options;
+        }
+
+        public void setOptions(List<Option> options) {
+            this.options = options;
+        }
+
+    }
+    
+    public static class Option {
+
+        private String selected;
+        private String value;
+        private String html;
+
+        public Option(){};
+        
+        public Option(String value, String html, String selected) {
+            this.value=value;
+            this.html=html;
+            this.selected=selected;
+        }
+
+        public String getSelected() {
+            return selected;
+        }
+
+        public void setSelected(String selected) {
+            this.selected = selected;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        public String getHtml() {
+            return html;
+        }
+
+        public void setHtml(String html) {
+            this.html = html;
+        }
+
     }
 }
 

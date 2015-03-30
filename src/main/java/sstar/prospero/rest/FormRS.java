@@ -67,6 +67,14 @@ public class FormRS extends SpringResource{
         dField.setName(fp.getPropertyId());
         dField.setType(fp.getPtype());
         dField.setValue(fp.getValue()==null?"":fp.getValue());
+        if(fp.getPtype().equals("select") && fp.getExtra()!=null){
+            String[] opts = fp.getExtra().split("#");
+            dField.setValue(null);
+            dField.setOptions(new ArrayList<DForm.Option>());
+            for(String opt:opts) {
+                dField.getOptions().add(new DForm.Option(opt, opt, opt.equals(fp.getValue())?"true":null));
+            }
+        }
         return dField;
     }
 }
