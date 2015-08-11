@@ -1,12 +1,22 @@
+CREATE TABLE APPUSER(user_login varchar(100) not null primary key, fio varchar(100), password varchar(100))|APPUSER|NOREWRITE
+CREATE TABLE APPUSER_LOG(user_login varchar(100) not null, log_time date, action_name varchar(100), action_data varchar(500))|APPUSER_LOG|NOREWRITE
+
+
 CREATE TABLE PERSON(person_id INT not null primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),create_date date,label varchar(100),puser_puser_id integer)|PERSON|NOREWRITE
 
 
-CREATE TABLE OPERATION(operation_id INT not null primary key, caption varchar(100), pos int, parent_id INT)|OPERATION
+CREATE TABLE OPERATION(operation_id INT not null primary key, caption varchar(300), pos int, parent_id INT)|OPERATION
 
 INSERT INTO OPERATION(operation_id,caption,pos) VALUES(1,'Граждане РФ',1)
 INSERT INTO OPERATION(operation_id,caption,pos) VALUES(2,'Иностранцы',2)
 
 INSERT INTO OPERATION VALUES(201,'Миграционный учет',1,2)
+INSERT INTO OPERATION VALUES(202,'Разрешение на временное проживание в Российской Федерации',2,2)
+INSERT INTO OPERATION VALUES(203,'Вид на жительство в Российской Федерации',3,2)
+INSERT INTO OPERATION VALUES(204,'Оформление, продление срока действия и восстановление визы',4,2)
+INSERT INTO OPERATION VALUES(205,'Приглашения на въезд в Российскую Федерацию иностранных граждан и лиц без гражданства',5,2)
+INSERT INTO OPERATION VALUES(206,'Получение патента на осуществление трудовой деятельности иностранными гражданами, прибывшими в Российскую Федерацию в порядке, не требующем получения визы',6,2)
+INSERT INTO OPERATION VALUES(207,'Получение высококвалифицированным иностранным специалистом разрешения на работу',7,2)
 
 CREATE TABLE FORM2OPERATION(form_form_id int,operation_operation_id int)|FORM2OPERATION
 CREATE TABLE FORM(form_id INT not null primary key, caption varchar(1000), template  varchar(100), pos int)|FORM
@@ -29,7 +39,7 @@ INSERT INTO PROPERTY VALUES('passportSerial','Серия','text',0,'')
 INSERT INTO PROPERTY VALUES('passportNumber','Номер','text',0,'')
 INSERT INTO PROPERTY VALUES('passportDate','Дата выдачи','text',0,'')
 INSERT INTO PROPERTY VALUES('passportExpired','Срок действия','text',0,'')
-INSERT INTO PROPERTY VALUES('entryResolutionName','Разрешение на пребывание в РФ','select',0,'Виза#Вид на жительство#Разрешение на временное проживание')
+INSERT INTO PROPERTY VALUES('entryResolutionName','Разрешение на пребывание в РФ','select',0,'Нет#Виза#Вид на жительство#Разрешение на временное проживание')
 INSERT INTO PROPERTY VALUES('entryResolutionSerial','Серия разрешения','text',0,'')
 INSERT INTO PROPERTY VALUES('entryResolutionNumber','Номер разрешения','text',0,'')
 INSERT INTO PROPERTY VALUES('entryResolutionDate','Дата выдачи разрешения','text',0,'')

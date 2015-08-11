@@ -35,6 +35,10 @@
         <property name="jdbcTemplate" ref="jdbcTemplate" />
     </bean>
 
+    <bean id="userDAO" class="sstar.prospero.dao.UserDAOImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate" />
+    </bean>
+
     <bean id="reportGenerator" class="sstar.prospero.report.JasperReportGenerator">
         <property name="templateBase" value="${templateBase}" />
     </bean>

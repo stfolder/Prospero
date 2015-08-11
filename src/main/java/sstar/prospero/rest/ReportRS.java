@@ -5,14 +5,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import sstar.prospero.dao.OperationDAO;
 import sstar.prospero.dao.PersonDAO;
+import sstar.prospero.dao.UserDAO;
 import sstar.prospero.entity.Form;
 import sstar.prospero.entity.Person;
 import sstar.prospero.report.ReportGenerator;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -32,6 +35,8 @@ public class ReportRS extends SpringResource{
     OperationDAO operationDAO;
     @Autowired
     PersonDAO personDAO;
+    @Autowired
+    UserDAO userDAO;
     
 
     @GET
@@ -64,7 +69,7 @@ public class ReportRS extends SpringResource{
 
     @GET
     @Produces("application/pdf")
-    public Response getPdfReport(@QueryParam("formid") String formId, @QueryParam("personid") String personId){
+    public Response getPdfReport(@QueryParam("formid") String formId, @QueryParam("personid") String personId, @Context HttpServletRequest request){
         String temporaryFileName="cache/"+System.currentTimeMillis()+".pdf";
         Form form = operationDAO.getFormById(Integer.parseInt(formId));
         Person person = personDAO.getPersonById(Integer.parseInt(personId));
@@ -85,6 +90,10 @@ public class ReportRS extends SpringResource{
         ResponseBuilder rb = Response.ok(new File(temporaryFileName));
         rb.header("Content-Disposition",
                 "inline;filename=report.pdf");
+
+        String userName = request.getRemoteUser();
+        String actionData = "{\"formId\":\""+formId+"\", \"personId\":\""+personId+"\"}";
+        userDAO.logAction(userName, "form.generate", actionData);
 
         return rb.build();
     }

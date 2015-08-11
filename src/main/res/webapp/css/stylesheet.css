@@ -151,3 +151,12 @@ body {
 	text-decoration:none;
 	margin-bottom:10px;
 }
+
+.statistics {
+	color:#FFFFFF;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+	margin-left:5px;
+	text-align:left;
+	float:left;
+}

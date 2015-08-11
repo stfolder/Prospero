@@ -35,25 +35,26 @@
 
 
     <div id="header_lower">
-        <div id="header_content_boxline">Список клиентов
+        <div id="header_content_boxline">Список пользователей
             <div id="header_content_boxcontent">
                 <table id="jqGrid"></table>
                 <div id="jqGridPager"></div>
 
                 <script type="text/javascript">
         $(document).ready(function () {
-            var sUrl= '/service/person';
+            var sUrl= '/service/user';
             $("#jqGrid").jqGrid({
                 url:sUrl,
                 editurl:sUrl,
                 mtype: "GET",
                 datatype: "json",
                 colModel: [
-                    { label: 'Дата добавления', name: 'created', width: 150, datefmt: "MM/dd/yyyy" },
-                    { label:'ФИО', name: 'label', width: 150, editable:true }
+                    { label: 'Имя', name: 'userLogin', width: 150, editable:true },
+                    { label:'ФИО', name: 'fio', width: 150, editable:true },
+                    { label:'Password', name: 'password', width: 150, editable:true }
                 ],
 				viewrecords: true,
-                width: 340,
+                width: 450,
                 height: 560,
                 rowNum: 24,
                 pager: "#jqGridPager"
@@ -63,7 +64,7 @@
                 { edit: false, add: true, del: true, search: false, refresh: false, view: false, position: "left", cloneToTop: false },
                 // options for the Edit Dialog
                 {
-                    editCaption: "Редактировать клиента",
+                    editCaption: "Редактировать пользователя",
                     recreateForm: true,
 					checkOnUpdate : true,
 					checkOnSubmit : true,
@@ -74,7 +75,7 @@
                 },
                 // options for the Add Dialog
                 {
-                    addCaption: "Добавить клиента",
+                    addCaption: "Добавить пользователя",
                     closeAfterAdd: true,
                     recreateForm: true,
                     mtype: "POST",
@@ -102,26 +103,6 @@
 
 
 
-                $("#tree").fancytree({
-                width:400,
-                height:560,
-//            extensions: ['dnd'],
-			source: {
-				url: "/service/operation/tree"
-			},
-			dblclick: function(event, data) {
-			    var grid = $("#jqGrid");
-                var rowKey = grid.jqGrid('getGridParam',"selrow");
-                if(rowKey){
-                    var formWin = window.open("form.html?personid="+rowKey+"&formid="+data.node.key, data.node.title,
-                        "width=420,resizable=yes,scrollbars=yes,status=no,location=no,menubar=no,toolbar=no,directories=no");
-                    formWin.focus();
-                    }
-//          data.node.toggleSelect();
-      }
-		});
-
-
         });
 
 
@@ -142,24 +123,7 @@
 <div id="bottom_bar_black">
     <div id="main_container">
         <div id="header_lower">
-            <div id="header_content_lowerline"><div id="stat" class="statistics"/>
-                <script type="text/javascript">
-function refresh_data() {
-    $.getJSON( "service/user/count",
-        function( data ) {
-          var items = [];
-          $.each( data, function( key, val ) {
-            if(key == "username") items.push("Пользователь: " + val + "<br/>");
-            if(key == "todayQty") items.push("Количество форм за сегодня: " + val + "<br/>");
 
-          });
-          $("#stat").html(items.join( "" ));
-        });
-    setTimeout("refresh_data()",15000);
-}
-
-refresh_data();
-                </script>
                 <div id="header_content_lowerboxcontent">
                 </div>
             </div>
