@@ -1,5 +1,7 @@
 package sstar.prospero.entity;
 
+import java.util.List;
+
 /**
  * Created by Sergey.Tarasenko on 05.03.2015.
  */
@@ -13,6 +15,7 @@ public class FormProperty {
     private int position;
     private String value;
     private String extra;
+    private List<FormPropertyTabField> tabFields;
 
     public String getPropertyId() {
         return propertyId;
@@ -86,4 +89,11 @@ public class FormProperty {
         this.extra = extra;
     }
 
+    public List<FormPropertyTabField> getTabFields() {
+        return tabFields;
+    }
+
+    public void setTabFields(List<FormPropertyTabField> tabFields) {
+        this.tabFields = tabFields;
+    }
 }

@@ -6,6 +6,7 @@ import sstar.prospero.dao.PersonDAO;
 import sstar.prospero.dao.UserDAO;
 import sstar.prospero.entity.Form;
 import sstar.prospero.entity.FormProperty;
+import sstar.prospero.entity.FormPropertyTabField;
 import sstar.prospero.entity.Person;
 
 import javax.ws.rs.*;
@@ -76,6 +77,21 @@ public class FormRS extends SpringResource{
                 dField.getOptions().add(new DForm.Option(opt, opt, opt.equals(fp.getValue())?"true":null));
             }
         }
+        if("table".equals(fp.getPtype()) && fp.getTabFields() != null) {
+            dField.setTabFields(new ArrayList<DForm.TabField>());
+            for(FormPropertyTabField fpTabField : fp.getTabFields()) {
+                DForm.TabField tabField = new DForm.TabField(
+                        fpTabField.getFieldId(),
+                        fpTabField.getCaption(),
+                        fpTabField.getPtype(),
+                        fpTabField.isMultiple(),
+                        fpTabField.getExtra(),
+                        fpTabField.getPosition()
+                );
+                dField.getTabFields().add(tabField);
+            }
+        }
+
         return dField;
     }
 }

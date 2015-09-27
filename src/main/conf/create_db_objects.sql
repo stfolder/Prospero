@@ -23,6 +23,8 @@ CREATE TABLE FORM(form_id INT not null primary key, caption varchar(1000), templ
 
 INSERT INTO FORM VALUES(1,'Уведомление о прибытии иностранного гражданина в место пребывания','uvedomlenie.jasper',1)
 INSERT INTO FORM2OPERATION VALUES(1,201)
+INSERT INTO FORM VALUES(2,'Заявление о выдаче разрешения на временное проживание','rvp_3.jasper',1)
+INSERT INTO FORM2OPERATION VALUES(2,202)
 
 CREATE TABLE PROPERTY(property_id varchar(100) not null primary key, caption varchar(200),  p_type varchar(50),multiple int default 0,extra varchar(1000) default null)|PROPERTY
 
@@ -87,6 +89,24 @@ INSERT INTO PROPERTY VALUES('hostAddressPhone','Тел','text',0,'')
 INSERT INTO PROPERTY VALUES('hostCompanyName','Наименование организации','text',0,'')
 INSERT INTO PROPERTY VALUES('hostFactAddress','Фактический адрес','text',0,'')
 INSERT INTO PROPERTY VALUES('hostINN','ИНН','text',0,'')
+INSERT INTO PROPERTY VALUES('relatives', 'Родственники', 'table',0,'')
+INSERT INTO PROPERTY VALUES('work_exp', 'Трудовая деятельность', 'table',0,'')
+
+CREATE TABLE TAB_PROPERTY_FIELD(tab_name varchar(100) not null, tab_field_name varchar(100), caption varchar(200),  p_type varchar(50),multiple int default 0,extra varchar(1000) default null, position int)|TAB_PROPERTY_FIELD
+
+INSERT INTO TAB_PROPERTY_FIELD VALUES('relatives', 'rel_degree', 'Степень родства', 'select',0,'отец#мать#супруг(а)#брат#сестра#ребенок', 0)
+INSERT INTO TAB_PROPERTY_FIELD VALUES('relatives', 'fio', 'ФИО', 'text',0,'', 1)
+INSERT INTO TAB_PROPERTY_FIELD VALUES('relatives', 'birthday', 'Дата рождения', 'date',0,'', 2)
+INSERT INTO TAB_PROPERTY_FIELD VALUES('relatives', 'birth_place', 'Место рождения', 'text',0,'', 3)
+INSERT INTO TAB_PROPERTY_FIELD VALUES('relatives', 'citizenship', 'Гражданство', 'text',0,'', 4)
+INSERT INTO TAB_PROPERTY_FIELD VALUES('relatives', 'address', 'Страна проживания и адрес', 'text',0,'', 4)
+INSERT INTO TAB_PROPERTY_FIELD VALUES('relatives', 'workplace', 'Место работы, учебы', 'text',0,'', 5)
+
+INSERT INTO TAB_PROPERTY_FIELD VALUES('work_exp', 'hire_date', 'Дата приема', 'date',0,'', 1)
+INSERT INTO TAB_PROPERTY_FIELD VALUES('work_exp', 'dismissal_date', 'Дата увольнения', 'date',0,'', 2)
+INSERT INTO TAB_PROPERTY_FIELD VALUES('work_exp', 'position', 'Должность', 'text',0,'', 3)
+INSERT INTO TAB_PROPERTY_FIELD VALUES('work_exp', 'organisation', 'Организация', 'text',0,'', 4)
+INSERT INTO TAB_PROPERTY_FIELD VALUES('work_exp', 'address', 'Адрес места работы (страна, город, область, населенный пункт)', 'text',0,'', 5)
 
 
 CREATE TABLE P_PROPERTY(person_person_id int not null, property_property_id varchar(100) not null, p_value varchar(4000))|P_PROPERTY|NOREWRITE
@@ -154,3 +174,9 @@ INSERT INTO F_PROPERTY VALUES(1,'hostAddressPhone',1,'as is',56)
 INSERT INTO F_PROPERTY VALUES(1,'hostCompanyName',1,'as is',57)
 INSERT INTO F_PROPERTY VALUES(1,'hostFactAddress',1,'as is',58)
 INSERT INTO F_PROPERTY VALUES(1,'hostINN',1,'as is',59)
+
+INSERT INTO F_PROPERTY VALUES(2,'relatives',1,'as is',1)
+INSERT INTO F_PROPERTY VALUES(2,'work_exp',1,'as is',2)
+
+
+

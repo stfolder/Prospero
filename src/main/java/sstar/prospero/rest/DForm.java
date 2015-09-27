@@ -41,6 +41,7 @@ public class DForm {
         private String caption;
         private String value;
         private List<Option> options;
+        private List<TabField> tabFields;
         
         public Field(){};
         public Field(String name, String value, String type){            
@@ -89,6 +90,13 @@ public class DForm {
             this.options = options;
         }
 
+        public List<TabField> getTabFields() {
+            return tabFields;
+        }
+
+        public void setTabFields(List<TabField> tabFields) {
+            this.tabFields = tabFields;
+        }
     }
     
     public static class Option {
@@ -129,6 +137,72 @@ public class DForm {
             this.html = html;
         }
 
+    }
+
+    public static class TabField {
+        private String fieldName;
+        private String caption;
+        private String pType;
+        private boolean multiple;
+        private String extra;
+        private int position;
+
+        public TabField(String fieldName, String caption, String pType, boolean multiple, String extra, int position) {
+            this.fieldName = fieldName;
+            this.caption = caption;
+            this.pType = pType;
+            this.multiple = multiple;
+            this.extra = extra;
+            this.position = position;
+        }
+
+        public String getFieldName() {
+            return fieldName;
+        }
+
+        public void setFieldName(String fieldName) {
+            this.fieldName = fieldName;
+        }
+
+        public String getCaption() {
+            return caption;
+        }
+
+        public void setCaption(String caption) {
+            this.caption = caption;
+        }
+
+        public String getpType() {
+            return pType;
+        }
+
+        public void setpType(String pType) {
+            this.pType = pType;
+        }
+
+        public boolean getMultiple() {
+            return multiple;
+        }
+
+        public void setMultiple(boolean multiple) {
+            this.multiple = multiple;
+        }
+
+        public String getExtra() {
+            return extra;
+        }
+
+        public void setExtra(String extra) {
+            this.extra = extra;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+
+        public void setPosition(int position) {
+            this.position = position;
+        }
     }
 }
 

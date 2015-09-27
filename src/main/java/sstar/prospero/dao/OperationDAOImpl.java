@@ -1,9 +1,6 @@
 package sstar.prospero.dao;
 
-import sstar.prospero.entity.Form;
-import sstar.prospero.entity.FormProperty;
-import sstar.prospero.entity.Operation;
-import sstar.prospero.entity.Person;
+import sstar.prospero.entity.*;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
@@ -79,7 +76,8 @@ public class OperationDAOImpl extends JdbcDaoSupport implements OperationDAO {
                 "LEFT JOIN (SELECT * FROM P_PROPERTY WHERE person_person_id = "+person.getId()+") p ON prop.property_id = p.property_property_id " +
                 "WHERE f.form_form_id = "+form.getFormId()+
                 " ORDER BY f.position";
-        return getJdbcTemplate().query(sql, new RowMapper<FormProperty>() {
+
+        List<FormProperty> formProperties = getJdbcTemplate().query(sql, new RowMapper<FormProperty>() {
             @Override
             public FormProperty mapRow(ResultSet resultSet, int i) throws SQLException {
                 FormProperty fp = new FormProperty();
@@ -95,6 +93,33 @@ public class OperationDAOImpl extends JdbcDaoSupport implements OperationDAO {
                 return fp;
             }
         });
+
+
+        for(FormProperty property : formProperties) {
+            if(! "table".equals(property.getPtype())) {
+                continue;
+            }
+
+            sql = "select tab_field_name, caption, p_type, multiple,extra, position from TAB_PROPERTY_FIELD where tab_name = '" + property.getPropertyId() + "' order by position";
+
+            List<FormPropertyTabField> fields = getJdbcTemplate().query(sql, new RowMapper<FormPropertyTabField>() {
+                @Override
+                public FormPropertyTabField mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    FormPropertyTabField fpTabField = new FormPropertyTabField();
+                    fpTabField.setFieldId(rs.getString(1));
+                    fpTabField.setCaption(rs.getString(2));
+                    fpTabField.setPtype(rs.getString(3));
+                    fpTabField.setMultiple(rs.getInt(4) == 1 ? true : false);
+                    fpTabField.setExtra(rs.getString(5));
+                    fpTabField.setPosition(rs.getInt(6));
+                    return fpTabField;
+                }
+            });
+            property.setTabFields(fields);
+
+        }
+
+        return formProperties;
         
     }
 }
